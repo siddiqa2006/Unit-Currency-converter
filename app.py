@@ -1,7 +1,7 @@
 import streamlit as st
 from pint import UnitRegistry
 
-# ✅ Set page configuration FIRST before anything else
+# Set page configuration
 st.set_page_config(page_title="Unit & Currency Converter", layout="wide")
 
 # Initialize unit registry
@@ -49,9 +49,13 @@ st.markdown("<div class='header-container'>😎 Unit & Currency Converter</div>"
 # Unit Converter Section
 st.markdown("## 📏 Unit Converter")
 unit_categories = {
-    "Length": ["Kilometre", "Metre", "Centimetre", "Millimetre", "Micrometre", "Nanometre", "Mile", "Yard", "Foot", "Inch", "Nautical mile"],
-    "Mass": ["Kilogram", "Gram", "Milligram", "Metric Ton", "Pound", "Ounce"],
-    "Speed": ["Metre per second", "Kilometre per hour", "Mile per hour", "Knot"],
+    "Length": ["kilometer", "meter", "centimeter", "millimeter", "micrometer", "nanometer", "mile", "yard", "foot", "inch", "nautical_mile"],
+    "Mass": ["kilogram", "gram", "milligram", "metric_ton", "pound", "ounce"],
+    "Speed": ["meter_per_second", "kilometer_per_hour", "mile_per_hour", "knot"],
+    "Area": ["square_meter", "square_kilometer", "square_centimeter", "square_millimeter", "hectare", "acre", "square_mile", "square_yard", "square_foot", "square_inch"],
+    "Time": ["second", "minute", "hour", "day", "week", "month", "year"],
+    "Temperature": ["celsius", "fahrenheit", "kelvin"],
+    "Liquid Volume": ["liter", "milliliter", "cubic_meter", "cubic_centimeter", "gallon_us", "gallon_uk", "pint_us", "pint_uk", "fluid_ounce_us", "fluid_ounce_uk"],
 }
 category = st.selectbox("Select a Category", options=list(unit_categories.keys()))
 units = unit_categories[category]
@@ -65,8 +69,6 @@ with col3:
 
 def convert_units(value, from_unit, to_unit):
     try:
-        from_unit = from_unit.lower().replace(" ", "_")
-        to_unit = to_unit.lower().replace(" ", "_")
         converted_value = (value * ureg(from_unit)).to(to_unit)
         return f"{value} {from_unit} = {converted_value.magnitude:.6f} {to_unit}"
     except Exception as e:
